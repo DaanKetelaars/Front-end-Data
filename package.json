@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "dotenv": "^10.0.0"
+  },
+  "name": "front-end-data",
+  "description": "Front-end Data",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DaanKetelaars/Front-end-Data.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DaanKetelaars/Front-end-Data/issues"
+  },
+  "homepage": "https://github.com/DaanKetelaars/Front-end-Data#readme"
+}
