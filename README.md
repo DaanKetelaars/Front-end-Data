@@ -46,7 +46,7 @@ Make sure to tag d3.js in your html file
 - [git](https://git-scm.com/)
 - [json](https://www.json.org/json-en.html)
 - [node](https://nodejs.org/en/)
-- [d3.js]("https://d3js.org/")
+- [d3.js](https://d3js.org/)
 
 ## Meta
 
