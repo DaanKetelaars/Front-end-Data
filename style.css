@@ -1,0 +1,23 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+    background-color: #f8f8f8;
+}
+
+header {
+    padding: 2rem 5rem;
+}
+
+h1 {
+    margin-bottom: 1rem;
+}
+
+a {
+    background-color: #1d75de;
+    color: #fff;
+    padding: .5rem .75rem;
+    border-radius: 5px;
+    text-decoration: none;
+}

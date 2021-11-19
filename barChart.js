@@ -1,37 +1,46 @@
+// empty array's being used later on
 let listenersArr = [];
 let artistArr = [];
-// Get data
+
+// fetch data with d3.json
 d3.json('http://ws.audioscrobbler.com/2.0/?method=geo.gettopartists&country=netherlands&api_key=7ebc4d450f175fa75d3260763df487fb&format=json').then((data) => {
-    let getData = data.topartists.artist;
-    let showArtists = getData.map((data) => data);
+    let getData = data.topartists.artist; // get the correct array
+    console.log(getData);
+    let showArtists = getData.map((data) => data); // map over this array and find the specific keys
     showArtists.map(artist => {
         const listeners = artist.listeners;
         const artistName = artist.name;
+        // push keys in 2 separate array's
         if (typeof listeners === 'string' || typeof artistName === 'string') {
             listenersArr.push(listeners);
             artistArr.push(artistName);
         }
     });
+    // combine these 2 separate array's to 1 array.
+    // change the key name so it's easier to find and use later on
     const combinedArr = artistArr.map((artist, index) => {
         return {
             artist: artist,
             listeners: listenersArr[index],
         }
     });
+    // numbers as string values to return as number values
     let selectNum = combinedArr.map((x) => {
         return x.listeners = +x.listeners;
     });
+    // sort the array based on number value - high to low
     combinedArr.sort((a, b) => b.listeners - a.listeners);
     let topFiftyData = combinedArr;
-    update(topFiftyData)
+    barChart(topFiftyData)
 });
 
-function update(topFiftyData) {
+// create a function to get data from .then above
+function barChart(topFiftyData) {
     // set the dimensions and margins of the graph
     const margin = {
-            top: 100,
-            right: 30,
-            bottom: 90,
+            top: 50,
+            right: 100,
+            bottom: 100,
             left: 100
         },
         width = 1280 - margin.left - margin.right,
@@ -59,33 +68,34 @@ function update(topFiftyData) {
 
     // Add Y axis
     const y = d3.scaleLinear()
-        .domain([0, 7500000])
+        .domain([0, 6500000])
         .range([height, 0]);
     svg.append("g")
         .call(d3.axisLeft(y));
 
     // Bars
-    svg.selectAll("mybar")
+    svg.selectAll("bars")
         .data(topFiftyData)
         .join("rect")
         .attr("x", d => x(d.artist))
         .attr("width", x.bandwidth())
-        .attr("fill", "#69b3a2")
+        .attr("fill", "#1ed760")
         .attr("height", d => height - y(0)) // always equal to 0
         .attr("y", d => y(0))
         .attr("data-amount", d => (d.listeners))
+        // on mouse effects to create interactivity
         .on("mouseover", function (d, i) {
-            tooltip.html(`Data: ${d.srcElement.dataset.amount}`).style("visibility", "visible")
+            tooltip.html(`${d.srcElement.__data__.artist}: ${d.srcElement.dataset.amount}`).style("visibility", "visible")
             console.log(d);
             d3.select(this)
-                .attr("fill", ("#69b3a2", -15));
+                .attr("fill", ("#1ed760", "#1db954"));
         }).on("mousemove", function () {
             tooltip
                 .style("top", (event.y - 10) + "px")
                 .style("left", (event.x + 10) + "px");
         }).on("mouseout", function () {
             tooltip.html(``).style("visibility", "hidden");
-            d3.select(this).attr("fill", "#69b3a2");
+            d3.select(this).attr("fill", "#1ed760");
         })
 
     // Animation
@@ -107,9 +117,9 @@ function update(topFiftyData) {
         .style("z-index", "10")
         .style("visibility", "hidden")
         .style("padding", "15px")
-        .style("background", "rgba(0,0,0,0.6)")
+        .style("background", "#3860be")
         .style("border-radius", "5px")
         .style("color", "#fff")
-        .text("a simple tooltip");
+        .style("font-family", "sans-serif")
 
 }
